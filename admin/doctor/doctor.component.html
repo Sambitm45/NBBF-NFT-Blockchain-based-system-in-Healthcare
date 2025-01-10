@@ -1,0 +1,9 @@
+<div class="rmo-container p-4 overflow-y-auto bg-white">
+  <div class="text-2xl font-bold text-gray-700">Doctor Management</div>
+  <div class="rmo-list-container w-full flex justify-center items-center my-3">
+    <app-user-list-table (deactivate)="deactivateDoctor($event)" (verify)="verifyDoctor($event)" [users]="doctors"
+                         title="Doctor"></app-user-list-table>
+  </div>
+</div>
+
+<app-progress-card></app-progress-card>

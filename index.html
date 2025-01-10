@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>EHR 6.0</title>
+  <base href="/">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="favicon.ico" rel="icon" type="image/x-icon">
+  <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        referrerpolicy="no-referrer" rel="stylesheet"/>
+  <style>
+    .ring-container {
+      position: relative;
+    }
+
+    .circle {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      position: absolute;
+      top: -4px;
+      right: 6px;
+    }
+
+    .ring {
+      -webkit-border-radius: 30px;
+      height: 20px;
+      width: 20px;
+      right: 1px;
+      top: -9px;
+      position: absolute;
+      -webkit-animation: pulsate 1s ease-out;
+      -webkit-animation-iteration-count: infinite;
+      opacity: 0.0
+    }
+
+    @-webkit-keyframes pulsate {
+      0% {
+        -webkit-transform: scale(0.1, 0.1);
+        opacity: 0.0;
+      }
+      50% {
+        opacity: 1.0;
+      }
+      100% {
+        -webkit-transform: scale(1, 1);
+        opacity: 0.0;
+      }
+    }
+  </style>
+</head>
+<body>
+<app-root></app-root>
+</body>
+</html>

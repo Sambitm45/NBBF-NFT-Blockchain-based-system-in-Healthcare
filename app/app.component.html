@@ -1,0 +1,21 @@
+<div class="header h-[25px] bg-gray-800 flex flex-row justify-between px-3">
+<span class="text-amber-50 font-bold">
+  EHR
+</span>
+  <span class="flex flex-row justify-between items-center">
+    <span class="mr-10 text-yellow-300 text-[10px] font-light tracking-wider">
+      <span *ngIf="currentAccount.length > 5">
+        {{currentAccount}}
+      </span>
+      <ng-template #notConnected>
+        Metamask not connected
+      </ng-template>
+    </span>
+    <div class="ring-container">
+        <div [class.border-green-500]="account.length>5" [class.border-red-500]="account.length<1"
+             class="ring border-2"></div>
+        <div [class.bg-green-500]="account.length>5" [class.bg-red-500]="account.length<5" class="circle "></div>
+    </div>
+  </span>
+</div>
+<router-outlet></router-outlet>

@@ -1,0 +1,158 @@
+<div
+  class="transition-all ease-in-out delay-300 min-w-[150px] min-h-[250px] p-3 max-w-[600px] bg-zinc-50 rounded-lg shadow-lg">
+  <div class="text-3xl font-bold p-3">
+    {{isRegister ? 'REGISTER' : 'LOGIN'}}
+  </div>
+
+  <div class="selector w-full flex flex-row justify-center items-center text-sm font-light">
+    <div class="user-toggle flex flex-row">
+      <p-toggleButton (click)="onUserToggle(1)" *ngIf="isLogin"
+                      [(ngModel)]="userType.admin"
+                      name="admin"
+                      offLabel="Admin"
+                      onIcon="pi pi-check" onLabel="I am an Admin"></p-toggleButton>
+      <p-toggleButton (click)="onUserToggle(2)" [(ngModel)]="userType.rmo"
+                      name="rmo"
+                      offLabel="RMO"
+                      onIcon="pi pi-check" onLabel="I am a RMO"></p-toggleButton>
+      <p-toggleButton (click)="onUserToggle(3)" [(ngModel)]="userType.doctor"
+                      name="doctor"
+                      offLabel="Doctor"
+                      onIcon="pi pi-check" onLabel="I am a Doctor"></p-toggleButton>
+      <p-toggleButton (click)="onUserToggle(4)"
+                      [(ngModel)]="userType.patient"
+                      name="patient" offLabel="Patient"
+                      onIcon="pi pi-check" onLabel="I am a Patient"></p-toggleButton>
+    </div>
+  </div>
+  <form #loginForm="ngForm" (ngSubmit)="handleLogin()" *ngIf="isLogin" class="p-3 w-[100%] md:w-[400px]">
+    <span class="mb-2 flex flex-col">
+      <label class="text-sm font-[400] text-gray-500 mb-1" htmlFor="username">Public Id</label>
+        <input #uName="ngModel"
+               [(ngModel)]="user.id"
+               [class.error-border]="uName.invalid && uName.touched"
+               [class.success-border]="uName.valid && uName.touched"
+               class="p-2 border text-base" disabled id="username" name="name"
+               pInputText placeholder="Public Id (0x0000...)" required/>
+    </span>
+    <span class="mb-2 flex flex-col">
+      <label class="text-sm font-[400] text-gray-500 mb-1" htmlFor="password">Password</label>
+        <input #pwd="ngModel"
+               [(ngModel)]="password"
+               [class.error-border]="pwd.invalid && pwd.touched" [class.success-border]="pwd.valid && pwd.touched"
+               class="p-2 border" id="password" name="password" pInputText
+               placeholder="Password"
+               required type="password"/>
+    </span>
+    <div class="mb-2 flex justify-end mt-3 me-2">
+      <button
+        [disabled]="loginForm.invalid"
+        class="transition-all bg-blue-600 text-xs p-2 px-3 font-[500] rounded-md text-amber-50 border border-blue-600 hover:bg-white hover:text-blue-700 hover:border shadow disabled:bg-gray-300 disabled:text-amber-50 disabled:border-none"
+        type="submit">LOGIN
+      </button>
+    </div>
+    <div class="text-sm text-gray-500 mt-2">
+      Don't have an account
+      <span (click)="register()" class="text-red-500 font-bold cursor-pointer">Register</span>
+    </div>
+  </form>
+
+  <form #regForm="ngForm" *ngIf="isRegister" [noValidate]="false" class="p-3 w-[100%] md:w-[500px]">
+    <span class="mb-2 flex flex-col">
+      <label class="text-sm font-[400] text-gray-500 mb-1" htmlFor="id">Public Id</label>
+        <input [(ngModel)]="user.id" class="p-2 border" disabled id="id" name="id" pInputText placeholder="Public Id"
+               required/>
+    </span>
+    <span class="mb-2 flex flex-col">
+      <label class="text-sm font-[400] text-gray-500 mb-1" htmlFor="name">Full Name</label>
+        <input #name="ngModel" [(ngModel)]="user.name"
+               [class.error-border]="name.invalid && name.touched" [class.success-border]="name.valid && name.touched"
+               class="p-2 border focus:shadow-none"
+               id="name" name="fName"
+               pInputText placeholder="Full name" required/>
+    </span>
+    <div class="grid grid-cols-2 gap-2 mb-2">
+
+    <span class="mb-2 flex flex-col">
+      <label class="text-sm font-[400] text-gray-500 mb-1" htmlFor="phone">Phone</label>
+        <input
+          #phone="ngModel"
+          [(ngModel)]="user.phone" [class.error-border]="phone.invalid && phone.touched"
+          [class.success-border]="phone.valid && phone.touched" class="p-2 border" id="phone" name="phone" pInputText
+          placeholder="Phone number"
+          required type="tel"/>
+    </span>
+      <span class="mb-2 flex flex-col">
+      <label class="text-sm font-[400] text-gray-500 mb-1" htmlFor="email">Email</label>
+        <input #email="ngModel"
+               [(ngModel)]="user.email"
+               [class.error-border]="email.invalid && email.touched"
+               [class.success-border]="email.valid && email.touched"
+               class="p-2 border" email="true" id="email" name="email" pInputText placeholder="Email address"
+               required type="email"></span>
+      <span class="mb-2 flex flex-col">
+      <label class="text-sm font-[400] text-gray-500 mb-1" htmlFor="age">Age</label>
+        <input #age="ngModel"
+               [(ngModel)]="user.age"
+               [class.error-border]="(user.age<1) && age.touched" [class.success-border]="age.valid && age.touched"
+               class="p-2 border" id="age" name="age" pInputText placeholder="age" required
+               type="number"/>
+    </span>
+
+      <span class="mb-2 flex flex-col">
+      <label class="text-sm font-[400] text-gray-500 mb-1" htmlFor="dob">Blood group</label>
+        <input #blood="ngModel"
+               [(ngModel)]="user.blood"
+               [class.error-border]="blood.invalid && blood.touched"
+               [class.success-border]="blood.valid && blood.touched" class="p-2 border" id="dob"
+               name="blood" pInputText placeholder="Blood group"
+               required type="text">
+    </span>
+
+    </div>
+    <span class="mb-2 flex flex-col">
+      <label class="text-sm font-[400] text-gray-500 mb-1" htmlFor="pwd">Password</label>
+        <input #pwd="ngModel"
+               [(ngModel)]="password"
+               [class.error-border]="pwd.invalid && pwd.touched"
+               [class.success-border]="pwd.valid && pwd.touched"
+               class="p-2 border" id="pwd"
+               name="password" pInputText placeholder="Password" required
+               type="password"/>
+    </span>
+    <span class="mb-2 flex flex-col">
+      <label class="text-sm font-[400] text-gray-500 mb-1" htmlFor="pwd1">Retype Password</label>
+        <input #rPass="ngModel"
+               [(ngModel)]="rPassword"
+               [class.error-border]="(rPass.invalid || !(rPassword===user.password)) && rPass.touched"
+               [class.success-border]="(rPassword===user.password) && rPass.touched" class="p-2 border" id="pwd1"
+               name="rPassword" pInputText placeholder="Retype Password"
+               required
+               type="password"/>
+    </span>
+
+<!--    <div class="msg text-center">-->
+<!--      <span class="text-green-500 text-xs font-bold">{{successMsg}}</span>-->
+<!--    </div>-->
+
+    <div class="flex justify-end mt-3 me-2">
+      <button
+        (click)="handleRegister()"
+        [class.disabled-btn]="regForm.invalid"
+        [disabled]="regForm.invalid"
+        class="transition-all text-xs p-2 px-3 font-[500] rounded-md text-amber-50 bg-blue-500 border border-blue-600 hover:bg-white hover:text-blue-700 hover:border shadow disabled:bg-gray-300 disabled:text-amber-50 disabled:border-none"
+        type="submit">REGISTER
+      </button>
+    </div>
+    <div class="text-sm text-gray-500 mt-2">
+      Already have an account
+      <span (click)="login()" class="text-red-500 font-bold cursor-pointer">Login</span>
+    </div>
+  </form>
+<!--  <div class="msg text-center">-->
+<!--    <span class="text-red-500 text-xs font-bold">{{errorMsg}}</span>-->
+<!--  </div>-->
+
+</div>
+
+<app-progress-card></app-progress-card>

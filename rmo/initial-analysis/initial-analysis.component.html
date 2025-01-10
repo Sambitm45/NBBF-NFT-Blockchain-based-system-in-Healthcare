@@ -1,0 +1,80 @@
+<div class="initial-analysis">
+  <div class="text-3xl font-[500] m-4 tracking-wide">Initial Analysis</div>
+  <div class="card m-4 p-3 bg-gray-100 border rounded-xl shadow-lg mx-auto max-w-[1024px]">
+    <form #analysisForm="ngForm" (ngSubmit)="onInitialAnalysisSubmit()">
+      <div class="input-group p-2">
+        <label class="text-base mb-2" for="patient">Patient</label>
+        <p-dropdown [(ngModel)]="selectedPatient" [filter]="true" [options]="patients" [showClear]="true" class="w-full"
+          filterBy="name,id" id="patient" name="patient" optionLabel="name" placeholder="Select a Patient">
+          <ng-template let-p pTemplate="item">
+            <div class="flex flex-col align-items-center gap-2">
+              <div>{{ p.name }}</div>
+              <div class="text-xs">{{ p.id }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="input-group">
+        <label class="text-base mb-2" for="diagnosis">Diagnosis</label>
+        <textarea [(ngModel)]="initialAnalysis.diagnosis" class="max-w-[1000px] p-3" cols="30" id="diagnosis"
+          name="diagnosis" pInputTextarea rows="4"></textarea>
+      </div>
+
+      <div class="input-group">
+        <div class="card flex justify-content-center">
+          <p-selectButton [(ngModel)]="initialAnalysis.fdr" [options]="fdrOptions" name="fdr" optionLabel="label"
+            optionValue="value">
+          </p-selectButton>
+        </div>
+      </div>
+      <div *ngIf="initialAnalysis.fdr==='true'" class="transition-all ease-in-out delay-150 input-group p-2">
+        <label class="text-base mb-2" for="doctor">Doctor</label>
+        <p-dropdown [(ngModel)]="selectedDoctor" [filter]="true" [options]="doctors" [showClear]="true" class="w-full"
+          filterBy="name,id" id="doctor" name="patient" optionLabel="name" placeholder="Select a Doctor">
+          <ng-template let-d pTemplate="item">
+            <div class="flex flex-col align-items-center gap-2">
+              <div>{{ d.name }}</div>
+              <div class="text-xs">{{ d.id }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+
+      <div class="input-group">
+        <label class="mb-2" for="lab_files">Medical Files</label>
+        <div (fileDropped)="onFileDrop($event)" appDnd class="flex flex-col items-center justify-center w-full"
+          id="lab_files">
+          <label
+            class="flex flex-col items-center justify-center w-full min-h-40 border-2 border-gray-200 border-dashed rounded-lg cursor-pointer"
+            for="dropzone-file">
+            <div class="flex flex-col items-center justify-center pt-4 pb-4">
+              <svg aria-hidden="true" class="w-8 h-5 mb-4 text-gray-500 dark:text-gray-400" fill="none"
+                viewBox="0 0 20 16" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                  stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+              </svg>
+              <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to
+                  upload</span> or drag and drop</p>
+            </div>
+            <input (change)="onFilesSelected($event)" [multiple]="true" class="hidden" id="dropzone-file" type="file" />
+            <div class="pb-2">
+              <div *ngFor="let f of selectedFiles">
+                <span class="text-xs text-gray-400">{{ f.name }} - {{ formatBytes(f.size) }}</span>
+              </div>
+            </div>
+
+          </label>
+
+        </div>
+      </div>
+      <div class="flex flex-row justify-end p-3">
+        <button class="p-button-success bg-green-600 px-3 py-2.5 rounded-md text-sm text-white hover:bg-green-500"
+          pButton pRipple type="submit">Submit initial analysis
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<app-progress-card></app-progress-card>

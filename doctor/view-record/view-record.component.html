@@ -1,0 +1,128 @@
+<div>
+  <form (ngSubmit)="onViewRecord()" class="form flex flex-row justify-center items-center my-4">
+    <div class="flex flex-row items-center pe-3">
+      <!--      <label class="text-base me-2" for="patient">Select Patient</label>-->
+      <p-dropdown [(ngModel)]="selectedPatient" [filter]="true" [options]="patients"
+                  [showClear]="true" class="w-full border" filterBy="name,id" id="patient"
+                  name="patient" optionLabel="name" placeholder="Select a Patient">
+        <ng-template let-p pTemplate="item">
+          <div class="flex flex-col align-items-center gap-2">
+            <div>{{ p.name }}</div>
+            <div class="text-xs">{{p.id}}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+    <div>
+      <button class="p-3 bg-green-500 hover:bg-green-400 text-white rounded-md">
+        View Records
+      </button>
+    </div>
+  </form>
+
+  <div class="mr-list-container my-3 w-full">
+    <div class="w-full md:w-3/4 mx-auto">
+      <p-table [tableStyle]="{ 'min-width': '50rem' }" [value]="selectedPatientRecords">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Date</th>
+            <th>Doctor Id</th>
+            <th>View</th>
+            <th>Mile Stone</th>
+          </tr>
+        </ng-template>
+        <ng-template let-r pTemplate="body">
+          <tr>
+            <td>{{ (r.date)*1000 | date:'short' }}</td>
+            <td>{{r.drId }}</td>
+            <td>
+              <button (click)="viewDiagnosis(r.record)"
+                      class="bg-blue-500 hover:bg-blue-400 text-sm text-white p-2 rounded-md">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> View
+              </button>
+            </td>
+            <td>
+              <button (click)="onAddNewMileStone(r)"
+                      *ngIf="!r.mileStone"
+                      class="bg-amber-500 hover:bg-amber-400 text-sm text-white p-2 rounded-md">
+                <i class="fa-solid fa-puzzle-piece"></i> Add Milestone
+              </button>
+              <button (click)="onViewMileStone(r)"
+                      *ngIf="r.mileStone"
+                      class="bg-purple-500 hover:bg-purple-400 text-sm text-white p-2 rounded-md">
+                <i class="fa-solid fa-expand"></i> View Milestone
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="3">No Records found.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <app-record-modal [diagnosis]="selectedDiagnosis"></app-record-modal>
+  <p-dialog [(visible)]="showMileStoneModal" [draggable]="false" [modal]="true" [resizable]="false"
+            [style]="{ width: '50vw' }"
+            header="Mint a NFT for Milestone in diagnosis">
+    <div class="flex flex-col md:flex-row p-2">
+      <div class="w-full flex flex-col items-center justify-center">
+        <div class="input-group flex flex-row mb-2">
+          <label class="pe-2" for="desc">Milestone Description:</label>
+          <textarea [(ngModel)]="mileStone" [maxlength]="100"
+                    class="border p-1.5" cols="30" id="desc" pInputText rows="3" type="text">
+        </textarea>
+        </div>
+        <button (click)="mintNFT()" class="bg-green-500 hover:bg-green-400 text-white p-2 text-sm rounded-md">
+          Mint NFT
+        </button>
+      </div>
+    </div>
+  </p-dialog>
+
+  <p-dialog [(visible)]="showMileStone" [draggable]="false" [modal]="true" [resizable]="false"
+            [style]="{ width: '50%' }"
+  >
+    <div *ngIf="selectedNFTData" class="cert-back flex flex-col md:flex-row mx-auto" id="cert">
+      <div class="">
+        <div class="w-full top-10 bottom-10 absolute mx-auto">
+          <div class="w-full">
+            <div class="font-[700] text-3xl text-center">
+              Milestone Certificate
+            </div>
+            <div class="mt-14 ms-10 text-sm font-[Cursive]">
+              This is to certify that Doctor (<span class="font-bold text-xs">{{selectedNFTData.dr}}</span>)
+              <br>completed
+              below milestone in the diagnosis of
+              breast cancer for the <br> patient (<span class="font-bold text-xs">{{selectedNFTData.patient}}</span>)
+            </div>
+            <div
+              class="w-fit text-lg overflow-ellipsis font-[Caveat] text-center">
+              <div class="absolute pt-10 ms-10 pe-10">"{{selectedNFTData.milestone}}"</div>
+            </div>
+            <div class="w-full h-full">
+              <div class="absolute text-sm bottom-3 font-[Cursive] ms-14">
+                <div>
+                  <b>NFT Address: </b>{{nftAddress}}
+                </div>
+                <div>
+                  <b>Token ID: </b> {{selectedTokenId}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-row items-center justify-center mt-4">
+      <button (click)="downloadNFT()" class="bg-gray-700 hover:bg-gray-500 text-xs text-white p-1.5 rounded-md">
+        Download
+      </button>
+    </div>
+
+  </p-dialog>
+</div>
+
+<app-progress-card></app-progress-card>

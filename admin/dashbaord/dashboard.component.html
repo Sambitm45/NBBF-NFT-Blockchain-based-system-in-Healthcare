@@ -1,0 +1,9 @@
+<div class="flex flex-row w-full overflow-hidden">
+  <div class="sidebar-container relative">
+    <app-sidebar (onLogOut)="handleLogOut()" [navs]="navs" class="block" title="ADMIN DASHBOARD"
+                 titleIcon="fa-solid fa-user-shield"></app-sidebar>
+  </div>
+  <div class="main-container w-full overflow-y-auto">
+    <router-outlet></router-outlet>
+  </div>
+</div>

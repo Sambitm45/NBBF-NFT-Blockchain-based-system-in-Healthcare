@@ -1,0 +1,54 @@
+<div class="p-3">
+  <div class="text-2xl">View Initial Analysis done patients</div>
+  <div class="pat-list mx-auto max-w-[1024px]">
+    <p-table #dt1 [globalFilterFields]="['name','id','email','phone']"
+             [paginator]="true"
+             [rowsPerPageOptions]="[5,10,20]"
+             [rows]="5"
+             [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+             [value]="patients"
+             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+             styleClass="p-datatable-striped"
+    >
+      <ng-template pTemplate="caption">
+        <div class="flex justify-end">
+          <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input (input)="dt1.filterGlobal(getInput($event), 'contains')"
+                       [placeholder]="'Search Patients'" pInputText
+                       style="padding: 0.5rem 1px 0.5rem 2.5rem;font-weight: 400" type="text"/>
+            </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="border">Patient Name</th>
+          <th class="border">Public Id</th>
+          <th class="border">Email</th>
+          <th class="border">Phone</th>
+          <th class="border">Action</th>
+        </tr>
+      </ng-template>
+      <ng-template let-r pTemplate="body">
+        <tr>
+          <td class="border text-sm">{{ r.name }}</td>
+          <td class="border text-sm">{{ r.id }}</td>
+          <td class="border text-sm">{{ r.email }}</td>
+          <td class="border text-sm">{{ r.phone }}</td>
+          <td class="border text-sm">
+            <button (click)="showDialog(r)" class="bg-blue-500 text-white p-2 text-sm rounded-md hover:bg-blue-400">
+              <i class="fa-solid fa-up-right-from-square"></i>&nbsp;
+              View Analysis
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <div class="dialog-overlay">
+    <app-analysis-modal [analysis]="analysis" [showAnalysis]="showAnalysis"></app-analysis-modal>
+  </div>
+
+
+</div>
